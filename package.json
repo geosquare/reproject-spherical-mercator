@@ -1,0 +1,40 @@
+{
+  "name": "reproject-spherical-mercator",
+  "version": "0.0.0",
+  "description": "Reproject geojson geometry from WGS84 to Spherical Mercator",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js ",
+    "build-debug": "browserify index.js --debug --standalone reproject | exorcist dist/reproject-spherical-mercator.js.map > dist/reproject-spherical-mercator.js",
+    "build-min": "browserify index.js --standalone reproject | uglifyjs -c -m > dist/reproject-spherical-mercator.min.js",
+    "build": "npm run build-debug && npm run build-min"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geosquare/reproject-spherical-mercator.git"
+  },
+  "keywords": [
+    "geojson",
+    "reproject",
+    "WGS84",
+    "spherical",
+    "mercator"
+  ],
+  "author": "Gagan Bansal <gaganbansal123@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geosquare/reproject-spherical-mercator/issues"
+  },
+  "homepage": "https://github.com/geosquare/reproject-spherical-mercator",
+  "dependencies": {
+    "sphericalmercator": "^1.0.3"
+  },
+  "devDependencies": {
+    "browserify": "~5.10.1",
+    "chai": "^2.1.0",
+    "exorcist": "^0.1.6",
+    "geojson-equality": "^0.1.2",
+    "mocha": "~1.21.4",
+    "uglify-js": "~2.4.15"
+  }
+}
