@@ -77,4 +77,9 @@ describe('reproject spherical mercator', function() {
       )
     ).to.be.true;
   });
+  it('Not a valid geojson', function() {
+    expect(
+      reproject.bind(this,{type:"Geometry", coordinates: [10,20]})
+    ).to.throw(Error);
+  });
 });

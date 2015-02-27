@@ -28,7 +28,7 @@ var reproject = function(g) {
     if (g.id) gre.id = g.id;
     if (g.properties) gre.properties = g.properties;
   } else {
-    throw 'Not valid geojson';  
+    throw new Error('Not a valid geojson');  
   }
   return gre; 
 };

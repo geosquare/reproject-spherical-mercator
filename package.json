@@ -1,6 +1,6 @@
 {
   "name": "reproject-spherical-mercator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Reproject geojson geometry from WGS84 to Spherical Mercator",
   "main": "index.js",
   "scripts": {
