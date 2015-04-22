@@ -8,29 +8,37 @@ function projCoords(coords) {
 }
 
 var reproject = function(g) {
-  var gre = {type: g.type};
+  var pg = {type: g.type};
   if (g.type == 'Point') {
-    gre.coordinates = sm.forward(g.coordinates);
+    pg.coordinates = sm.forward(g.coordinates);
   } else if (g.type == 'LineString' || g.type == 'MultiPoint') {
-    gre.coordinates = projCoords(g.coordinates);
+    pg.coordinates = projCoords(g.coordinates);
   } else if (g.type == 'Polygon' || g.type == 'MultiLineString') {
-    gre.coordinates = g.coordinates.map(function(part) {
+    pg.coordinates = g.coordinates.map(function(part) {
       return projCoords(part);
     });
   } else if (g.type =='MultiPolygon') {
-    gre.coordinates = g.coordinates.map(function(poly) {
+    pg.coordinates = g.coordinates.map(function(poly) {
       return poly.map(function(part) {
         return projCoords(part);
       });
     });
   } else if (g.type == 'Feature') {
-    gre.geometry = reproject(g.geometry);
-    if (g.id) gre.id = g.id;
-    if (g.properties) gre.properties = g.properties;
+    pg.geometry = reproject(g.geometry);
+    if (g.id) pg.id = g.id;
+    if (g.properties) pg.properties = g.properties;
+  } else if (g.type == 'FeatureCollection') {
+    pg.features = g.features.map(function(f) {
+      return reproject(f);
+    });
+  } else if (g.type == 'GeometryCollection') {
+    pg.geometries = g.geometries.map(function(geom) {
+      return reproject(geom);
+    });
   } else {
     throw new Error('Not a valid geojson');  
   }
-  return gre; 
+  return pg; 
 };
 
 module.exports = reproject;
