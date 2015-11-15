@@ -70,9 +70,17 @@ describe('reproject spherical mercator', function() {
     ).to.be.true;
   });
   it('Feature', function() {
+    var projected = reproject(testData['Feature'].input);
+    expect(projected).to.have.property('bbox')
+      .that.is.an('array')
+      .that.to.have.length(4);
+    var testbbox = projected.bbox;
+    var expbbox = testData['Feature'].output.bbox;
+    testbbox.forEach(function(coord, i) {
+      expect(coord).to.be.closeTo(expbbox[i], 0.0001);
+    });
     expect(
-      eq.compare(
-        reproject(testData['Feature'].input),
+      eq.compare(projected,
         testData['Feature'].output
       )
     ).to.be.true;
@@ -85,6 +93,14 @@ describe('reproject spherical mercator', function() {
   it('FeatureCollection', function() {
     var projected = reproject(testData['FeatureCollection'].input);
     expect(projected).to.have.property('type','FeatureCollection');
+    expect(projected).to.have.property('bbox')
+      .that.is.an('array')
+      .that.to.have.length(4);
+    var testbbox = projected.bbox;
+    var expbbox = testData['FeatureCollection'].output.bbox;
+    testbbox.forEach(function(coord, i) {
+      expect(coord).to.be.closeTo(expbbox[i], 0.0001);
+    });
     expect(
       testData['FeatureCollection'].output.features.every(function(expFeat) {
         return projected.features.some(function(projFeat) {

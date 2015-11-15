@@ -1,5 +1,6 @@
 // reproject-spherical-mercator index.js
 var SphericalMercator = require('sphericalmercator'),
+  bbox = require('geojson-bbox'),
   sm = new SphericalMercator({size: 256});
 function projCoords(coords) {
   return coords.map(function(coord) {
@@ -27,10 +28,12 @@ var reproject = function(g) {
     pg.geometry = reproject(g.geometry);
     if (g.id) pg.id = g.id;
     if (g.properties) pg.properties = g.properties;
+    if (g.bbox) pg.bbox = bbox(pg);
   } else if (g.type == 'FeatureCollection') {
     pg.features = g.features.map(function(f) {
       return reproject(f);
     });
+    if (g.bbox) pg.bbox = bbox(pg);
   } else if (g.type == 'GeometryCollection') {
     pg.geometries = g.geometries.map(function(geom) {
       return reproject(geom);
